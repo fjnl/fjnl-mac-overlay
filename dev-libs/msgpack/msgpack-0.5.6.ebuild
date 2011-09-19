@@ -10,7 +10,7 @@ SRC_URI="http://msgpack.org/releases/cpp/${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~amd64-macosx ~x86 ~x86-macosx"
+KEYWORDS="~amd64 ~x86 ~x86-macos ~x64-macos"
 IUSE="static-libs test"
 
 DEPEND="test? ( dev-util/gtest )"
