@@ -1,0 +1,118 @@
+diff --git a/tools/darwin.jam b/tools/darwin.jam
+index 283dfac..69781af 100644
+--- a/tools/darwin.jam
++++ b/tools/darwin.jam
+@@ -246,46 +246,46 @@ local rule init-sdk ( condition * : root ? : version + : version-feature ? )
+         
+         # Set the flags the version needs to compile with, first
+         # generic options.
+-        flags darwin.compile OPTIONS $(condition)/<macosx-version>$(version-feature)
+-            : -isysroot $(sdk) ;
+-        flags darwin.link OPTIONS $(condition)/<macosx-version>$(version-feature)
+-            : -isysroot $(sdk) ;
+-        
+-        # Then device variation options.
+-        switch $(version[1])
+-        {
+-            case iphonesim* :
+-            {
+-                local N = $(version[2]) ;
+-                if ! $(version[3]) { N += 00 ; }
+-                else if [ regex.match (..) : $(version[3]) ] { N += $(version[3]) ; }
+-                else { N += 0$(version[3]) ; }
+-                if ! $(version[4]) { N += 00 ; }
+-                else if [ regex.match (..) : $(version[4]) ] { N += $(version[4]) ; }
+-                else { N += 0$(version[4]) ; }
+-                N = $(N:J=) ;
+-                flags darwin.compile OPTIONS <macosx-version-min>$(version-feature)
+-                    : -D__IPHONE_OS_VERSION_MIN_REQUIRED=$(N) ;
+-                flags darwin.link OPTIONS <macosx-version-min>$(version-feature)
+-                    : -D__IPHONE_OS_VERSION_MIN_REQUIRED=$(N) ;
+-            }
+-            
+-            case iphone* :
+-            {
+-                flags darwin.compile OPTIONS <macosx-version-min>$(version-feature)
+-                    : -miphoneos-version-min=$(version[2-]:J=.) ;
+-                flags darwin.link OPTIONS <macosx-version-min>$(version-feature)
+-                    : -miphoneos-version-min=$(version[2-]:J=.) ;
+-            }
+-            
+-            case mac* :
+-            {
+-                flags darwin.compile OPTIONS <macosx-version-min>$(version-feature)
+-                    : -mmacosx-version-min=$(version[2-]:J=.) ;
+-                flags darwin.link OPTIONS <macosx-version-min>$(version-feature)
+-                    : -mmacosx-version-min=$(version[2-]:J=.) ;
+-            }
+-        }
++#        flags darwin.compile OPTIONS $(condition)/<macosx-version>$(version-feature)
++#            : -isysroot $(sdk) ;
++#        flags darwin.link OPTIONS $(condition)/<macosx-version>$(version-feature)
++#            : -isysroot $(sdk) ;
++#        
++#        # Then device variation options.
++#        switch $(version[1])
++#        {
++#            case iphonesim* :
++#            {
++#                local N = $(version[2]) ;
++#                if ! $(version[3]) { N += 00 ; }
++#                else if [ regex.match (..) : $(version[3]) ] { N += $(version[3]) ; }
++#                else { N += 0$(version[3]) ; }
++#                if ! $(version[4]) { N += 00 ; }
++#                else if [ regex.match (..) : $(version[4]) ] { N += $(version[4]) ; }
++#                else { N += 0$(version[4]) ; }
++#                N = $(N:J=) ;
++#                flags darwin.compile OPTIONS <macosx-version-min>$(version-feature)
++#                    : -D__IPHONE_OS_VERSION_MIN_REQUIRED=$(N) ;
++#                flags darwin.link OPTIONS <macosx-version-min>$(version-feature)
++#                    : -D__IPHONE_OS_VERSION_MIN_REQUIRED=$(N) ;
++#            }
++#            
++#            case iphone* :
++#            {
++#                flags darwin.compile OPTIONS <macosx-version-min>$(version-feature)
++#                    : -miphoneos-version-min=$(version[2-]:J=.) ;
++#                flags darwin.link OPTIONS <macosx-version-min>$(version-feature)
++#                    : -miphoneos-version-min=$(version[2-]:J=.) ;
++#            }
++#            
++#            case mac* :
++#            {
++#                flags darwin.compile OPTIONS <macosx-version-min>$(version-feature)
++#                    : -mmacosx-version-min=$(version[2-]:J=.) ;
++#                flags darwin.link OPTIONS <macosx-version-min>$(version-feature)
++#                    : -mmacosx-version-min=$(version[2-]:J=.) ;
++#            }
++#        }
+         
+         return $(version-feature) ;
+     }
+@@ -387,7 +387,7 @@ rule setup-address-model ( targets * : sources * : properties * )
+             support-ppc64 = ;
+         }
+     }
+-    switch $(arch)
++    switch $(XXXdisabledXXXarch)
+     {
+         case combined : 
+         {
+@@ -491,14 +491,14 @@ flags darwin.link OPTIONS <runtime-link>static
+     : -nodefaultlibs -shared-libgcc -lstdc++-static -lgcc_eh -lgcc -lSystem ;
+ 
+ # Strip as much as possible when optimizing.
+-flags darwin.link OPTIONS <optimization>speed : -Wl,-dead_strip -no_dead_strip_inits_and_terms ;
+-flags darwin.link OPTIONS <optimization>space : -Wl,-dead_strip -no_dead_strip_inits_and_terms ;
++#flags darwin.link OPTIONS <optimization>speed : -Wl,-dead_strip -no_dead_strip_inits_and_terms ;
++#flags darwin.link OPTIONS <optimization>space : -Wl,-dead_strip -no_dead_strip_inits_and_terms ;
+ 
+ # Dynamic/shared linking.
+ flags darwin.compile OPTIONS <link>shared : -dynamic ;
+ 
+ # Misc options.
+-flags darwin.compile OPTIONS : -no-cpp-precomp -gdwarf-2 -fexceptions ;
++flags darwin.compile OPTIONS : -gdwarf-2 -fexceptions ;
+ #~ flags darwin.link OPTIONS : -fexceptions ;
+ 
+ # Add the framework names to use.
